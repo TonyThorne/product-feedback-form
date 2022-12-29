@@ -53,7 +53,10 @@ export default defineConfig({
   ],
 
   // https://github.com/vitest-dev/vitest
+  // Added by TT 'globals: true' to stop the expect not defined Vitest error.
   test: {
     environment: 'jsdom',
+    globals: true,
   },
+
 })
