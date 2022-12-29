@@ -9,5 +9,6 @@ describe('Testing the test form!', () => {
     render(TestForm)
     const header = screen.queryByRole('heading', { name: 'Test Form' })
     expect(header).toBeInTheDocument()
+    expect(header).toMatchSnapshot()
   })
 })
