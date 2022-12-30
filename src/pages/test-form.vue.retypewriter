@@ -7,7 +7,27 @@ reTypewriter Snapshots v1
 
 <template>
   <div>
-    <h1>Test form</h1>
+    <h1>Test Form</h1>
+    <br>
+    <!-- Create a form based on /types/feedback-data -->
+    <div card container text-left>
+      <form>
+        <label for="date_time">Date / Time</label>
+        <input id="date_time" type="datetime-local" name="date_time" readonly>
+        <br>
+        <label for="name">Name</label>
+        <input id="name" type="text" name="name">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email">
+        <br>
+        <label for="subject">Subject</label>
+        <input id="subject" type="text" name="subject">
+        <label for="details">Details</label>
+        <textarea id="details" name="details" />
+        <br>
+        <input btn type="submit" value="Submit">
+      </form>
+    </div>
   </div>
 </template>
 
