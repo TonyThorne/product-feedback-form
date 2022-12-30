@@ -1,7 +1,9 @@
 // Vitest Snapshot v1
 
 exports[`The release notes > should render the release notes title 1`] = `
-<h1>
-  Release Notes
+<h1
+  text-xl=""
+>
+   Release Notes 
 </h1>
 `;
