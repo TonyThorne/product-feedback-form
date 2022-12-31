@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { FeedbackData } from '../types/feedback-data'
 
-const props = defineProps<{
-  feedbackData: FeedbackData
-}>()
-
-console.log(props)
+const data = ref<FeedbackData>({
+  date_time: new Date().toISOString(),
+  name: '',
+  email: '',
+  subject: '',
+  details: '',
+})
 </script>
 
 <template>
@@ -16,17 +18,17 @@ console.log(props)
     <div card container text-left>
       <form>
         <label for="date_time">Date / Time</label>
-        <input id="date_time" type="datetime-local" name="date_time" readonly>
+        <input id="date_time" v-model="data.date_time" type="datetime-local" name="date_time" readonly>
         <br>
         <label for="name">Name</label>
-        <input id="name" type="text" name="name">
+        <input id="name" v-model="data.name" type="text" name="name">
         <label for="email">Email</label>
-        <input id="email" type="email" name="email">
+        <input id="email" v-model="data.email" type="email" name="email">
         <br>
         <label for="subject">Subject</label>
-        <input id="subject" type="text" name="subject">
+        <input id="subject" v-model="data.subject" type="text" name="subject">
         <label for="details">Details</label>
-        <textarea id="details" name="details" />
+        <textarea id="details" v-model="data.details" name="details" />
         <br>
         <div text-center>
           <input btn type="submit" value="Submit">
