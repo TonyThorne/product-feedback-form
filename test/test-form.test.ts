@@ -39,5 +39,10 @@ describe('UI elements', () => {
       const details = screen.queryByLabelText('Details')
       expect(details).toBeInTheDocument()
     })
+    it('has a submit button', () => {
+      render(TestForm)
+      const submit = screen.queryByRole('button', { name: 'Submit' })
+      expect(submit).toBeInTheDocument()
+    })
   })
 })
