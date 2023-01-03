@@ -4,6 +4,7 @@ specifiers:
   '@antfu/eslint-config': ^0.34.0
   '@iconify-json/carbon': ^1.1.11
   '@testing-library/jest-dom': ^5.16.5
+  '@testing-library/user-event': ^14.4.3
   '@testing-library/vue': ^6.6.1
   '@types/node': ^18.11.18
   '@unocss/reset': ^0.48.0
@@ -36,6 +37,7 @@ devDependencies:
   '@antfu/eslint-config': 0.34.0_eslint@8.30.0+typescript@4.9.4
   '@iconify-json/carbon': 1.1.11
   '@testing-library/jest-dom': 5.16.5
+  '@testing-library/user-event': 14.4.3
   '@testing-library/vue': 6.6.1_vue@3.2.45
   '@types/node': 18.11.18
   '@unocss/reset': 0.48.0
@@ -707,6 +709,13 @@ packages:
       dom-accessibility-api: 0.5.14
       lodash: 4.17.21
       redent: 3.0.0
+    dev: true
+
+  /@testing-library/user-event/14.4.3:
+    resolution: {integrity: sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==}
+    engines: {node: '>=12', npm: '>=6'}
+    peerDependencies:
+      '@testing-library/dom': '>=7.21.4'
     dev: true
 
   /@testing-library/vue/6.6.1_vue@3.2.45:

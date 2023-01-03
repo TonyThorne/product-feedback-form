@@ -8,6 +8,15 @@ const data = ref<FeedbackData>({
   subject: '',
   details: '',
 })
+
+const onSubmit = (e: Event) => {
+  e.preventDefault()
+  console.log(data.value)
+}
+
+const isDisabled = computed(() => {
+  return (data.value.name.length === 0 || data.value.email.length === 0 || data.value.subject.length === 0 || data.value.details.length === 0)
+})
 </script>
 
 <template>
@@ -31,7 +40,7 @@ const data = ref<FeedbackData>({
         <textarea id="details" v-model="data.details" form-input name="details" />
         <br>
         <div text-center>
-          <input btn type="submit" value="Submit">
+          <input btn type="submit" value="Submit" :disabled="isDisabled" @click="onSubmit">
         </div>
       </form>
     </div>

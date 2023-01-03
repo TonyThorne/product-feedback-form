@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/vue'
 import { describe, expect, it } from 'vitest'
-
+import userEvent from '@testing-library/user-event'
 import TestForm from '../src/pages/test-form.vue'
 
 describe('UI elements', () => {
@@ -43,6 +43,36 @@ describe('UI elements', () => {
       render(TestForm)
       const submit = screen.queryByRole('button', { name: 'Submit' })
       expect(submit).toBeInTheDocument()
+    })
+  })
+})
+// Interactions
+// Write interactions tests here
+
+describe('UI interactions', () => {
+  describe('Submitting the form', () => {
+    it('should enable the submit button', async () => {
+      render(TestForm)
+      const date = screen.queryByLabelText('Date / Time')
+      const name = screen.queryByLabelText('Name')
+      const email = screen.queryByLabelText('Email')
+      const subject = screen.queryByLabelText('Subject')
+      const details = screen.queryByLabelText('Details')
+      const submit = screen.queryByRole('button', { name: 'Submit' })
+      await userEvent.type(date, '2021-10-10 10:10')
+      await userEvent.type(name, 'John Doe')
+      await userEvent.type(email, 'john.doe@gmail.com')
+      await userEvent.type(subject, 'Test subject')
+      await userEvent.type(details, 'Test details')
+      await userEvent.click(submit)
+      expect(submit).toBeEnabled()
+    })
+    it('should disable submit button if no data entered', async () => {
+      render(TestForm)
+      const submit = screen.queryByRole('button', { name: 'Submit' })
+      // No data entered
+      await userEvent.click(submit)
+      expect(submit).toBeDisabled()
     })
   })
 })
