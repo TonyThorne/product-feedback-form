@@ -1,0 +1,7 @@
+// Vitest Snapshot v1
+
+exports[`Testing the test form! > should render Test Form 1`] = `
+<h1>
+  Test Form
+</h1>
+`;
