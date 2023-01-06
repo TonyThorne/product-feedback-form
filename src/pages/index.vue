@@ -42,5 +42,8 @@ const go = () => {
         Go
       </button>
     </div>
+    <div>
+      <TheCounter :initial="18" />
+    </div>
   </div>
 </template>
