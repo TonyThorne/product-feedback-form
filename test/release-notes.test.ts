@@ -25,4 +25,12 @@ describe('The release notes', () => {
     const items = getAllByRole('listitem')
     expect(items.length).toBeGreaterThan(1)
   })
+  // create a test that checks if the page loads in under 2 seconds
+  it('should load in under 2 seconds', async () => {
+    render(RelaseNotes)
+    const time = Date.now()
+    const header = screen.queryByRole('heading', { name: 'Release Notes' })
+    expect(header).toBeInTheDocument()
+    expect(Date.now() - time).toBeLessThan(2000)
+  })
 })

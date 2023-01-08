@@ -74,5 +74,6 @@ describe('UI interactions', () => {
       await userEvent.click(submit)
       expect(submit).toBeDisabled()
     })
+    // write a test to disable submit button if data is cleared from the details field
   })
 })

@@ -24,7 +24,7 @@ const isDisabled = computed(() => {
     <h1>Test Form</h1>
     <br>
     <!-- Create a form based on /types/feedback-data -->
-    <div card container text-left>
+    <!-- <div card container text-left>
       <form>
         <label form-label for="date_time">Date / Time</label>
         <input id="date_time" v-model="data.date_time" form-input type="text" name="date_time" readonly>
@@ -43,7 +43,7 @@ const isDisabled = computed(() => {
           <input btn type="submit" value="Submit" :disabled="isDisabled" @click="onSubmit">
         </div>
       </form>
-    </div>
+    </div> -->
   </div>
 </template>
 

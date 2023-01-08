@@ -5,3 +5,9 @@ exports[`UI elements > Displaying the title > should render the header Test Form
   Test Form
 </h1>
 `;
+
+exports[`UI elements > Testing the test form! > should render the header Test Form 1`] = `
+<h1>
+  Test Form
+</h1>
+`;
