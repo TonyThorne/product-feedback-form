@@ -9,7 +9,8 @@ const buildTime = __BUILD_TIME__
     </h1>
     <br>
     <ul text-left>
-      <li>30/12/2022 - Basic scaffold app with release notes and test form</li>
+      <li>08/01/2023 - Added release notes</li>
+      <li>05/01/2023 - Basic scaffold app with release notes and test form</li>
     </ul>
   </main>
   <br>
