@@ -51,7 +51,9 @@ export default defineConfig({
     // see unocss.config.ts for config
     Unocss(),
   ],
-
+  define: {
+    __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+  },
   // https://github.com/vitest-dev/vitest
   // Added by TT 'globals: true' to stop the expect not defined Vitest error.
   test: {

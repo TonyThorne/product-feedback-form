@@ -1,0 +1,25 @@
+<script setup lang="ts">
+const buildTime = __BUILD_TIME__
+</script>
+
+<template>
+  <main>
+    <h1 text-xl>
+      Release Notes
+    </h1>
+    <br>
+    <ul text-left>
+      <li>30/12/2022 - Basic scaffold app with release notes and test form</li>
+    </ul>
+  </main>
+  <br>
+  <footer>
+    <div id="build_time">
+      Last build time: {{ buildTime }}
+    </div>
+  </footer>
+</template>
+
+<style scoped>
+
+</style>

@@ -1,0 +1,196 @@
+reTypewriter Snapshots v1
+
+--01----------
+{
+    "meta": "create a JSON schema based on name, email, Subject and Details",
+
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"$id": "/feedback-data-schema.json",
+"title": "Feedback form ",
+"description": "Data to provide feedback",
+"type": "object"
+    "schema": {
+        "properties": {
+            "name": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "email": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "subject": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "details": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 1000
+            }
+        }
+    }
+}
+--02----------
+{
+    "meta": "create a JSON schema based on name, email, Subject and Details",
+
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"$id": "/feedback-data-schema.json",
+"title": "Feedback form ",
+"description": "Data to provide feedback",
+"type": "object",
+    "schema": {
+        "properties": {
+            "name": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "email": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "subject": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "details": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 1000
+            }
+        }
+    }
+}
+--03----------
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/feedback-data-schema.json",
+    "title": "Feedback form ",
+    "description": "Data to provide feedback",
+    "type": "object",
+    "schema": {
+        "properties": {
+            "name": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "email": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "subject": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "details": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 1000
+            }
+        }
+    }
+}
+--04----------
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/feedback-data-schema.json",
+    "title": "Feedback form ",
+    "description": "Data to provide feedback",
+    "type": "object",
+    "schema": {
+        "properties": {
+            "name": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "email": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255,
+                "format": "email"
+            },
+            "subject": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "details": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 1000
+            }
+        }
+    }
+}
+--05----------
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/feedback-data-schema.json",
+    "title": "Feedback form ",
+    "description": "Data to provide feedback",
+    "type": "object",
+    "schema": {
+        "properties": {
+            "name": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "email": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255,
+                "format": "email"
+            },
+            "subject": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 255
+            },
+            "details": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 1000
+            },
+            "dateTime": {
+                "type": "string",
+                "required": true,
+                "minLength": 1,
+                "maxLength": 30,
+                "format": "date-time"
+            }
+        }
+    }
+}
+--------------
