@@ -1,17 +1,34 @@
 <script setup lang="ts">
 import type { FeedbackData } from '../types/feedback-data'
+import { createFeedback } from '../services/api-vespa'
 
 const data = ref<FeedbackData>({
   dateTime: '12/12/2021 12:12:12',
-  name: '',
-  email: '',
-  subject: '',
-  details: '',
+  name: 'test name',
+  email: 't@g.com',
+  subject: 'test sub',
+  details: 'test details',
 })
+
+const returnedData = ref<FeedbackData | null>(null)
 
 const onSubmit = (e: Event) => {
   e.preventDefault()
-  console.log(data.value)
+  // returnedData = await (createFeedback(data.value))
+  // console.log('return', returnedData)
+  fetch('https://test-api-lvpopocrba-nw.a.run.app/feedback', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data.value),
+  })
+    .then(response => response.json())
+    .then(data => returnedData.value = data)
+
+    .catch((error) => {
+      console.error('Error:', error)
+    })
 }
 
 const isDisabled = computed(() => {
@@ -43,6 +60,12 @@ const isDisabled = computed(() => {
           <input btn type="submit" value="Submit" :disabled="isDisabled" @click="onSubmit">
         </div>
       </form>
+      <div>
+        <div v-show="returnedData">
+          <p>Success!</p>
+          <p>{{ returnedData }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
