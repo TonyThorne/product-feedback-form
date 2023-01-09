@@ -6,7 +6,7 @@ const data = ref<FeedbackData>({
   dateTime: '12/12/2021 12:12:12',
   name: 'test name',
   email: 't@g.com',
-  subject: 'test sub',
+  subject: 'test subject',
   details: 'test details',
 })
 
