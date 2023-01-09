@@ -2,7 +2,7 @@
 import type { FeedbackData } from '../types/feedback-data'
 
 const data = ref<FeedbackData>({
-  date_time: '12/12/2021 12:12:12',
+  dateTime: '12/12/2021 12:12:12',
   name: '',
   email: '',
   subject: '',
@@ -24,10 +24,10 @@ const isDisabled = computed(() => {
     <h1>Test Form</h1>
     <br>
     <!-- Create a form based on /types/feedback-data -->
-    <!-- <div card container text-left>
+    <div card container text-left>
       <form>
-        <label form-label for="date_time">Date / Time</label>
-        <input id="date_time" v-model="data.date_time" form-input type="text" name="date_time" readonly>
+        <label form-label for="dateTime">Date / Time</label>
+        <input id="dateTime" v-model="data.dateTime" form-input type="text" name="dateTime" readonly>
         <br>
         <label form-label for="name">Name</label>
         <input id="name" v-model="data.name" form-input type="text" name="name">
@@ -43,7 +43,7 @@ const isDisabled = computed(() => {
           <input btn type="submit" value="Submit" :disabled="isDisabled" @click="onSubmit">
         </div>
       </form>
-    </div> -->
+    </div>
   </div>
 </template>
 
