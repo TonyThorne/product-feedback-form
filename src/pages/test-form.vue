@@ -7,7 +7,7 @@ const data = ref<FeedbackData>({
   name: 'test name',
   email: 't@g.com',
   subject: 'test subject',
-  details: 'test details',
+  details: 'test details via monday.com',
 })
 
 const returnedData = ref<FeedbackData | null>(null)
@@ -16,7 +16,9 @@ const onSubmit = (e: Event) => {
   e.preventDefault()
   // returnedData = await (createFeedback(data.value))
   // console.log('return', returnedData)
-  fetch('https://test-api-lvpopocrba-nw.a.run.app/feedback', {
+  // fetch('https://test-api-lvpopocrba-nw.a.run.app/feedback', {
+  fetch('http://localhost:3000/feedback', {
+
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
