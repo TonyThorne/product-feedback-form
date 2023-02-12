@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { log } from 'console'
+
 import type { FeedbackData } from '../types/feedback-data'
 import { createFeedback } from '../services/api-vespa'
+import { feedbackSchema } from '~/schema/feedback-data-zod'
+
+const schemaValidation = feedbackSchema
 
 const data = ref<FeedbackData>({
   dateTime: '12/12/2021 12:12:12',
@@ -14,6 +19,16 @@ const returnedData = ref<FeedbackData | null>(null)
 
 const onSubmit = (e: Event) => {
   e.preventDefault()
+  console.log('submit', data.value)
+  // validate data before sending to the server
+  const result = schemaValidation.safeParse(data.value)
+  if (!result.success) {
+    console.log('error', result.error)
+    return
+  }
+  else {
+    console.log('success', result.data)
+  }
   // returnedData = await (createFeedback(data.value))
   // console.log('return', returnedData)
   // fetch('https://test-api-lvpopocrba-nw.a.run.app/feedback', {
