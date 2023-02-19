@@ -7,11 +7,16 @@ import { feedbackSchema } from '~/schema/feedback-data-zod'
 const schemaValidation = feedbackSchema
 
 const data = ref<FeedbackData>({
-  dateTime: '12/12/2021 12:12:12',
-  name: 'test name',
-  email: 't@g.com',
-  subject: 'test subject',
-  details: 'test details via monday.com',
+  // dateTime: '12/12/2021 12:12:12',
+  // name: 'test name',
+  // email: 't@g.com',
+  // subject: 'test subject',
+  // details: 'test details via monday.com',
+  dateTime: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
+  name: '',
+  email: '',
+  subject: '',
+  details: '',
 })
 
 const formValidation = ref<boolean>(false)
@@ -22,16 +27,15 @@ const returnedData = ref<FeedbackData | null>(null)
 const validate = computed(() => {
   const result = schemaValidation.safeParse(data.value)
   if (!result.success) {
-    // const t = result.error.issues
-    console.log(result.error.format())
+    // console.log(result.error.format())
 
     formValidation.value = true
     formErrors = result.error.format()
-    formErrors?.email ? console.log('email error') : console.log('no email error')
+    // formErrors?.email ? console.log('email error') : console.log('no email error')
     // console.log('forRef', formValidation.value)
   }
   else {
-    console.log('success', result.data)
+    // console.log('success', result.data)
     formErrors = null
     formValidation.value = false
     // console.log('forRef', formValidation.value)
@@ -90,22 +94,31 @@ const isDisabled = computed(() => {
     <br>
     <!-- Create a form based on /types/feedback-data -->
     <div card container text-left>
-      <form @change="validate">
+      <form>
         <label form-label for="dateTime">Date / Time</label>
-        <input id="dateTime" v-model="data.dateTime" form-input type="text" name="dateTime" readonly>
+        <input id="dateTime" v-model="data.dateTime" form-input type="text" name="dateTime" readonly @change="validate">
         <br>
         <label form-label for="name">Name</label>
-        <input id="name" v-model="data.name" form-input type="text" name="name">
+        <input id="name" v-model="data.name" form-input type="text" name="name" :class="{ 'border-2 border-rose-600': formErrors?.name }" @change="validate">
+        <div v-if="formErrors?.name" text-red>
+          {{ formErrors.name._errors[0] }}
+        </div>
         <label form-label for="email">Email</label>
-        <input id="email" v-model="data.email" form-input type="email" name="email" :class="{ 'border-2 border-rose-600': formErrors?.email }">
+        <input id="email" v-model="data.email" form-input type="email" name="email" :class="{ 'border-2 border-rose-600': formErrors?.email }" @change="validate">
         <div v-if="formErrors?.email" text-red>
           {{ formErrors.email._errors[0] }}
         </div>
         <br>
         <label form-label for="subject">Subject</label>
-        <input id="subject" v-model="data.subject" form-input type="text" name="subject">
+        <input id="subject" v-model="data.subject" form-input type="text" name="subject" :class="{ 'border-2 border-rose-600': formErrors?.subject }" @change="validate">
+        <div v-if="formErrors?.subject" text-red>
+          {{ formErrors.subject._errors[0] }}
+        </div>
         <label form-label for="details">Details</label>
-        <textarea id="details" v-model="data.details" form-input name="details" />
+        <textarea id="details" v-model="data.details" form-input name="details" :class="{ 'border-2 border-rose-600': formErrors?.details }" @change="validate" />
+        <div v-if="formErrors?.details" text-red>
+          {{ formErrors.details._errors[0] }}
+        </div>
         <br>
         <div text-center>
           <input btn type="submit" value="Submit" :disabled="isDisabled" @click="onSubmit">
