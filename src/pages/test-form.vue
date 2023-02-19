@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { log } from 'console'
-
+import type { ZodError } from 'zod'
 import type { FeedbackData } from '../types/feedback-data'
-import { createFeedback } from '../services/api-vespa'
+// import { createFeedback } from '../services/api-vespa'
 import { feedbackSchema } from '~/schema/feedback-data-zod'
 
 const schemaValidation = feedbackSchema
@@ -15,7 +14,30 @@ const data = ref<FeedbackData>({
   details: 'test details via monday.com',
 })
 
+const formValidation = ref<boolean>(false)
+let formErrors = ref<any>(null)
+
 const returnedData = ref<FeedbackData | null>(null)
+
+const validate = computed(() => {
+  const result = schemaValidation.safeParse(data.value)
+  if (!result.success) {
+    // const t = result.error.issues
+    console.log(result.error.format())
+
+    formValidation.value = true
+    formErrors = result.error.format()
+    formErrors?.email ? console.log('email error') : console.log('no email error')
+    // console.log('forRef', formValidation.value)
+  }
+  else {
+    console.log('success', result.data)
+    formErrors = null
+    formValidation.value = false
+    // console.log('forRef', formValidation.value)
+  }
+},
+)
 
 const onSubmit = (e: Event) => {
   e.preventDefault()
@@ -49,7 +71,16 @@ const onSubmit = (e: Event) => {
 }
 
 const isDisabled = computed(() => {
-  return (data.value.name.length === 0 || data.value.email.length === 0 || data.value.subject.length === 0 || data.value.details.length === 0)
+  // if (data.value.name.length === 0 || data.value.email.length === 0 || data.value.subject.length === 0 || data.value.details.length === 0)
+  //   return true
+  // else if
+  // (formValidation.value === true)
+  //   return true
+  // else
+  //   return false
+  // console.log('computed', formValidation.value)
+
+  return formValidation.value
 })
 </script>
 
@@ -59,14 +90,17 @@ const isDisabled = computed(() => {
     <br>
     <!-- Create a form based on /types/feedback-data -->
     <div card container text-left>
-      <form>
+      <form @change="validate">
         <label form-label for="dateTime">Date / Time</label>
         <input id="dateTime" v-model="data.dateTime" form-input type="text" name="dateTime" readonly>
         <br>
         <label form-label for="name">Name</label>
         <input id="name" v-model="data.name" form-input type="text" name="name">
         <label form-label for="email">Email</label>
-        <input id="email" v-model="data.email" form-input type="email" name="email">
+        <input id="email" v-model="data.email" form-input type="email" name="email" :class="{ 'border-2 border-rose-600': formErrors?.email }">
+        <div v-if="formErrors?.email" text-red>
+          {{ formErrors.email._errors[0] }}
+        </div>
         <br>
         <label form-label for="subject">Subject</label>
         <input id="subject" v-model="data.subject" form-input type="text" name="subject">
