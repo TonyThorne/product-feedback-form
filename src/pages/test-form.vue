@@ -20,28 +20,51 @@ const data = ref<FeedbackData>({
 })
 
 const formValidation = ref<boolean>(false)
-let formErrors = ref<any>(null)
+// let formErrors = {}
+let formErrors = reactive<any>({ name: '' })
 
 const returnedData = ref<FeedbackData | null>(null)
 
-const validate = computed(() => {
-  const result = schemaValidation.safeParse(data.value)
-  if (!result.success) {
-    // console.log(result.error.format())
+// const validate = computed(() => {
+//   const result = schemaValidation.safeParse(data.value)
+//   if (!result.success) {
+//     formValidation.value = true
+//     formErrors = result.error.format()
+//   }
+//   else {
+//     // console.log('success', result.data)
+//     formErrors = null
+//     formValidation.value = false
+//     // console.log('forRef', formValidation.value)
+//   }
+// },
+// )
 
+const validate = (e) => {
+  const key = e.target.id
+  // console.log('type', typeof (data.value), schemaValidation.shape.name)
+
+  // console.log('e', e.target.id)
+  // console.log('leaft', data.value[leaf])
+
+  const result = schemaValidation.shape[key].safeParse(data.value[key])
+  if (!result.success) {
+    console.log('result', result.error.issues[0].message.toString())
+    const g = result?.error?.issues[0]?.message.toString()
     formValidation.value = true
-    formErrors = result.error.format()
-    // formErrors?.email ? console.log('email error') : console.log('no email error')
-    // console.log('forRef', formValidation.value)
+    // formErrors = result.error.issues
+    return formErrors[key] = result?.error?.issues[0]?.message.toString()
+    // console.log('form-errors', formErrors )
+
+    // console.log('formatted errors', formErrors)
   }
   else {
     // console.log('success', result.data)
-    formErrors = null
+    formErrors = {}
     formValidation.value = false
-    // console.log('forRef', formValidation.value)
+    // console.log('forRe f', formValidation.value)
   }
-},
-)
+}
 
 const onSubmit = (e: Event) => {
   e.preventDefault()
@@ -96,28 +119,29 @@ const isDisabled = computed(() => {
     <div card container text-left>
       <form>
         <label form-label for="dateTime">Date / Time</label>
-        <input id="dateTime" v-model="data.dateTime" form-input type="text" name="dateTime" readonly @change="validate">
+        <input id="dateTime" v-model="data.dateTime" form-input type="text" name="dateTime" readonly>
         <br>
         <label form-label for="name">Name</label>
-        <input id="name" v-model="data.name" form-input type="text" name="name" :class="{ 'border-2 border-rose-600': formErrors?.name }" @change="validate">
+        <input id="name" v-model="data.name" form-input type="text" name="name" :class="{ 'border-2 border-rose-600': formErrors?.name }" @input="validate">
         <div v-if="formErrors?.name" text-red>
-          {{ formErrors.name._errors[0] }}
+          {{ formErrors.name }}
         </div>
         <label form-label for="email">Email</label>
-        <input id="email" v-model="data.email" form-input type="email" name="email" :class="{ 'border-2 border-rose-600': formErrors?.email }" @change="validate">
+        <input id="email" v-model="data.email" form-input type="email" name="email" :class="{ 'border-2 border-rose-600': formErrors?.email }" @input="validate">
         <div v-if="formErrors?.email" text-red>
-          {{ formErrors.email._errors[0] }}
+          '
+          '       {{ formErrors.email }}
         </div>
         <br>
         <label form-label for="subject">Subject</label>
-        <input id="subject" v-model="data.subject" form-input type="text" name="subject" :class="{ 'border-2 border-rose-600': formErrors?.subject }" @change="validate">
+        <input id="subject" v-model="data.subject" form-input type="text" name="subject" :class="{ 'border-2 border-rose-600': formErrors?.subject }" @input="validate">
         <div v-if="formErrors?.subject" text-red>
-          {{ formErrors.subject._errors[0] }}
+          {{ formErrors.subject }}
         </div>
         <label form-label for="details">Details</label>
-        <textarea id="details" v-model="data.details" form-input name="details" :class="{ 'border-2 border-rose-600': formErrors?.details }" @change="validate" />
+        <textarea id="details" v-model="data.details" form-input name="details" :class="{ 'border-2 border-rose-600': formErrors?.details }" @input="validate" />
         <div v-if="formErrors?.details" text-red>
-          {{ formErrors.details._errors[0] }}
+          {{ formErrors.details }}
         </div>
         <br>
         <div text-center>
