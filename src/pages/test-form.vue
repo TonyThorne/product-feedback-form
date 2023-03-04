@@ -73,8 +73,8 @@ const onSubmit = (e: Event) => {
   }
   // returnedData = await (createFeedback(data.value))
   // console.log('return', returnedData)
-  // fetch('https://test-api-lvpopocrba-nw.a.run.app/feedback', {
-  fetch('http://localhost:3000/feedback', {
+  fetch('https://test-api-lvpopocrba-nw.a.run.app/feedback', {
+  // fetch('http://localhost:3000/feedback', {
 
     method: 'POST',
     headers: {
