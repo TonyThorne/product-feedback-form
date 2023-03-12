@@ -6,10 +6,6 @@ import { feedbackSchema } from '~/schema/feedback-data-zod'
 
 const schemaValidation = feedbackSchema
 
-//   return date.toLocaleString('en-GB', { timeZone: 'UTC' })
-// }
-// console.log('currentTime', dateFormat())
-
 const data = ref<FeedbackData>({
   // dateTime: '12/12/2021 12:12:12',
   // name: 'test name',
@@ -40,36 +36,35 @@ const validate = (e: any) => {
   const result = schemaValidation.shape[key].safeParse(data.value[key])
   if (!result.success) {
     // console.log('result', result.error.issues[0].message.toString())
-    console.log('result', result)
-
+    // console.log('result', result)
+    formValidation.value = true
     return formErrors[key] = result?.error?.issues[0]?.message.toString()
   }
   else {
-    console.log('clear')
+    // console.log('clear')
     const wholeForm = schemaValidation.safeParse(data.value)
-    console.log('wholeForm', wholeForm)
+    // consol e.log('wholeForm', wholeForm)
 
-    if (!wholeForm.success) { formValidation.value = true }
-    else {
-      console.log('wholeForm Error', wholeForm)
+    if (!wholeForm.success)
+      formValidation.value = true
 
+    else
       formValidation.value = false
-    }
     formErrors = {}
   }
 }
 
 const onSubmit = (e: Event) => {
   e.preventDefault()
-  console.log('submit', data.value)
+  // console.log('submit', data.value)
   // validate data before sending to the server
   const result = schemaValidation.safeParse(data.value)
   if (!result.success) {
-    console.log('error', result.error)
+    // console.log('error', result.error)
     return
   }
   else {
-    console.log('success', result.data)
+    // console.log('success', result.data)
   }
   // returnedData = await (createFeedback(data.value))
   // console.log('return', returnedData)
@@ -107,23 +102,23 @@ const isDisabled = computed(() => {
         <br>
         <label form-label for="name">Name</label>
         <input id="name" v-model="data.name" form-input type="text" name="name" :class="{ 'border-2 border-rose-600': formErrors?.name }" @input="validate">
-        <div v-if="formErrors?.name" text-red>
+        <div v-if="formErrors?.name" role="nameValError" text-red>
           {{ formErrors.name }}
         </div>
         <label form-label for="email">Email</label>
         <input id="email" v-model="data.email" form-input type="email" name="email" :class="{ 'border-2 border-rose-600': formErrors?.email }" @input="validate">
-        <div v-if="formErrors?.email" text-red>
+        <div v-if="formErrors?.email" role="emailValError" text-red>
           {{ formErrors.email }}
         </div>
         <br>
         <label form-label for="subject">Subject</label>
         <input id="subject" v-model="data.subject" form-input type="text" name="subject" :class="{ 'border-2 border-rose-600': formErrors?.subject }" @input="validate">
-        <div v-if="formErrors?.subject" text-red>
+        <div v-if="formErrors?.subject" role="subjectValError" text-red>
           {{ formErrors.subject }}
         </div>
         <label form-label for="details">Details</label>
         <textarea id="details" v-model="data.details" form-input name="details" :class="{ 'border-2 border-rose-600': formErrors?.details }" @input="validate" />
-        <div v-if="formErrors?.details" text-red>
+        <div v-if="formErrors?.details" role="detailsValError" text-red>
           {{ formErrors.details }}
         </div>
         <br>

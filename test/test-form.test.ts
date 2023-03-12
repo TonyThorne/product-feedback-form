@@ -93,5 +93,50 @@ describe('UI interactions', () => {
       await userEvent.clear(details)
       expect(submit).toBeDisabled()
     })
+    // It should display a validation errors when the entered data does not match the validation
+    it('should display a validation name entered', async () => {
+      const user = userEvent.setup()
+      render(TestForm)
+
+      const name = screen.queryByLabelText('Name')
+      await user.type(name, 'J')
+      const nameValidationErrorMessage = screen.getByRole('nameValError')
+      const text = screen.getByText('Must be at least two characters')
+      expect(nameValidationErrorMessage).toBeInTheDocument()
+      expect(text).toBeInTheDocument()
+    })
+    it('should display a validation Email entered', async () => {
+      const user = userEvent.setup()
+      render(TestForm)
+
+      const email = screen.queryByLabelText('Email')
+      await user.type(email, 'notanemail')
+      const emailValidationErrorMessage = screen.getByRole('emailValError')
+      const text = screen.getByText('Invalid email address')
+      expect(emailValidationErrorMessage).toBeInTheDocument()
+      expect(text).toBeInTheDocument()
+    })
+    it('should display a validation Subject entered', async () => {
+      const user = userEvent.setup()
+      render(TestForm)
+
+      const subject = screen.queryByLabelText('Subject')
+      await user.type(subject, 't')
+      const ValidationErrorMessage = screen.getByRole('subjectValError')
+      const text = screen.getByText('String must contain at least 2 character(s)')
+      expect(ValidationErrorMessage).toBeInTheDocument()
+      expect(text).toBeInTheDocument()
+    })
+    it('should display a validation Details entered', async () => {
+      const user = userEvent.setup()
+      render(TestForm)
+
+      const details = screen.queryByLabelText('Details')
+      await user.type(details, 'to')
+      const ValidationErrorMessage = screen.getByRole('detailsValError')
+      const text = screen.getByText('String must contain at least 3 character(s)')
+      expect(ValidationErrorMessage).toBeInTheDocument()
+      expect(text).toBeInTheDocument()
+    })
   })
 })
