@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import type { ZodError } from 'zod'
+// import type { ZodError } from 'zod'
 import type { FeedbackData } from '../types/feedback-data'
 // import { createFeedback } from '../services/api-vespa'
 import { feedbackSchema } from '~/schema/feedback-data-zod'
 
 const schemaValidation = feedbackSchema
+
+//   return date.toLocaleString('en-GB', { timeZone: 'UTC' })
+// }
+// console.log('currentTime', dateFormat())
 
 const data = ref<FeedbackData>({
   // dateTime: '12/12/2021 12:12:12',
@@ -12,57 +16,46 @@ const data = ref<FeedbackData>({
   // email: 't@g.com',
   // subject: 'test subject',
   // details: 'test details via monday.com',
-  dateTime: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
+  dateTime: new Date(),
   name: '',
   email: '',
   subject: '',
   details: '',
 })
 
-const formValidation = ref<boolean>(false)
+const dateFormat = computed(() => {
+  const date = new Date(data.value.dateTime)
+  return date.toLocaleString('en-GB', { timeZone: 'UTC' })
+})
+
+const formValidation = ref<boolean>(true)
 // let formErrors = {}
 let formErrors = reactive<any>({ name: '' })
 
 const returnedData = ref<FeedbackData | null>(null)
 
-// const validate = computed(() => {
-//   const result = schemaValidation.safeParse(data.value)
-//   if (!result.success) {
-//     formValidation.value = true
-//     formErrors = result.error.format()
-//   }
-//   else {
-//     // console.log('success', result.data)
-//     formErrors = null
-//     formValidation.value = false
-//     // console.log('forRef', formValidation.value)
-//   }
-// },
-// )
-
-const validate = (e) => {
-  const key = e.target.id
-  // console.log('type', typeof (data.value), schemaValidation.shape.name)
-
-  // console.log('e', e.target.id)
-  // console.log('leaft', data.value[leaf])
+const validate = (e: any) => {
+  const key = e.target?.id
 
   const result = schemaValidation.shape[key].safeParse(data.value[key])
   if (!result.success) {
-    console.log('result', result.error.issues[0].message.toString())
-    const g = result?.error?.issues[0]?.message.toString()
-    formValidation.value = true
-    // formErrors = result.error.issues
-    return formErrors[key] = result?.error?.issues[0]?.message.toString()
-    // console.log('form-errors', formErrors )
+    // console.log('result', result.error.issues[0].message.toString())
+    console.log('result', result)
 
-    // console.log('formatted errors', formErrors)
+    return formErrors[key] = result?.error?.issues[0]?.message.toString()
   }
   else {
-    // console.log('success', result.data)
+    console.log('clear')
+    const wholeForm = schemaValidation.safeParse(data.value)
+    console.log('wholeForm', wholeForm)
+
+    if (!wholeForm.success) { formValidation.value = true }
+    else {
+      console.log('wholeForm Error', wholeForm)
+
+      formValidation.value = false
+    }
     formErrors = {}
-    formValidation.value = false
-    // console.log('forRe f', formValidation.value)
   }
 }
 
@@ -98,15 +91,6 @@ const onSubmit = (e: Event) => {
 }
 
 const isDisabled = computed(() => {
-  // if (data.value.name.length === 0 || data.value.email.length === 0 || data.value.subject.length === 0 || data.value.details.length === 0)
-  //   return true
-  // else if
-  // (formValidation.value === true)
-  //   return true
-  // else
-  //   return false
-  // console.log('computed', formValidation.value)
-
   return formValidation.value
 })
 </script>
@@ -119,7 +103,7 @@ const isDisabled = computed(() => {
     <div card container text-left>
       <form>
         <label form-label for="dateTime">Date / Time</label>
-        <input id="dateTime" v-model="data.dateTime" form-input type="text" name="dateTime" readonly>
+        <input id="dateTime" v-model="dateFormat" form-input type="text" name="dateTime" readonly>
         <br>
         <label form-label for="name">Name</label>
         <input id="name" v-model="data.name" form-input type="text" name="name" :class="{ 'border-2 border-rose-600': formErrors?.name }" @input="validate">
@@ -129,8 +113,7 @@ const isDisabled = computed(() => {
         <label form-label for="email">Email</label>
         <input id="email" v-model="data.email" form-input type="email" name="email" :class="{ 'border-2 border-rose-600': formErrors?.email }" @input="validate">
         <div v-if="formErrors?.email" text-red>
-          '
-          '       {{ formErrors.email }}
+          {{ formErrors.email }}
         </div>
         <br>
         <label form-label for="subject">Subject</label>
