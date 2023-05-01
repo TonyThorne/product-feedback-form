@@ -73,8 +73,8 @@ const onSubmit = (e: Event) => {
   }
   // returnedData = await (createFeedback(data.value))
   // console.log('return', returnedData)
-  // fetch('https://test-api-lvpopocrba-nw.a.run.app/feedback', {
-  fetch('http://localhost:3000/feedback', {
+  fetch('https://test-api-lvpopocrba-nw.a.run.app/feedback', {
+  // fetch('http://localhost:3000/feedback', {
 
     method: 'POST',
     headers: {
@@ -97,7 +97,7 @@ const isDisabled = computed(() => {
 
 <template>
   <div>
-    <h1>Test Form</h1>
+    <h1>Test Feedback Form</h1>
     <br>
     <!-- Create a form based on /types/feedback-data -->
     <div card container text-left>
@@ -128,7 +128,7 @@ const isDisabled = computed(() => {
         </div>
         <br>
         <div text-center>
-          <input btn type="submit" value="Submit" :disabled="isDisabled" @click="onSubmit">
+          <input btn type="submit" value="Submit" @click="onSubmit">
         </div>
       </form>
       <div>
