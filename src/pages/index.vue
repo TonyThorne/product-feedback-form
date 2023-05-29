@@ -14,7 +14,7 @@ const go = () => {
 
 <template>
   <div>
-    <div i-carbon-closed-caption-alt text-4xl inline-block />
+    <div i-carbon-closed-caption-alt text-4xl inline-block data-cy="title-icon" />
     <p>
       <a rel="noreferrer" href="https://github.com/TonyThorne/feedback" target="_blank">
         Feedback Form
@@ -40,6 +40,15 @@ const go = () => {
         @click="go"
       >
         Go
+      </button>
+    </div>
+    <div>
+      <button
+        class="m-3 text-sm btn"
+        data-cy="test-form"
+        @click="router.push('/test-form')"
+      >
+        Feedback
       </button>
     </div>
     <!-- <div>

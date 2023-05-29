@@ -1,10 +1,21 @@
 <script setup lang="ts">
+// import type { ZodError } from 'zod'
 import type { FeedbackData } from '../types/feedback-data'
+// import { createFeedback } from '../services/api-vespa'
 import { feedbackSchema } from '~/schema/feedback-data-zod'
 
 const schemaValidation = feedbackSchema
 
+//   return date.toLocaleString('en-GB', { timeZone: 'UTC' })
+// }
+// console.log('currentTime', dateFormat())
+
 const data = ref<FeedbackData>({
+  // dateTime: '12/12/2021 12:12:12',
+  // name: 'test name',
+  // email: 't@g.com',
+  // subject: 'test subject',
+  // details: 'test details via monday.com',
   dateTime: new Date(),
   name: '',
   email: '',
@@ -17,23 +28,51 @@ const dateFormat = computed(() => {
   return date.toLocaleString('en-GB', { timeZone: 'UTC' })
 })
 
-// const formValidation = ref<boolean>(true)
-const formErrors = ref<Record<string, string[] | null>>({})
-const isDisabled = computed(() => Object.values(formErrors.value).some(error => error !== null))
+const formValidation = ref<boolean>(true)
+// let formErrors = {}
+let formErrors = reactive<any>({ name: '' })
 
 const returnedData = ref<FeedbackData | null>(null)
 
-function validate() {
-  const validationResult = schemaValidation.safeParse(data.value)
-  formErrors.value = validationResult.success ? {} : validationResult.error.flatten().fieldErrors
+const validate = (e: any) => {
+  const key = e.target?.id
+
+  const result = schemaValidation.shape[key].safeParse(data.value[key])
+  if (!result.success) {
+    // console.log('result', result.error.issues[0].message.toString())
+    console.log('result', result)
+
+    return formErrors[key] = result?.error?.issues[0]?.message.toString()
+  }
+  else {
+    console.log('clear')
+    const wholeForm = schemaValidation.safeParse(data.value)
+    console.log('wholeForm', wholeForm)
+
+    if (!wholeForm.success) { formValidation.value = true }
+    else {
+      console.log('wholeForm Error', wholeForm)
+
+      formValidation.value = false
+    }
+    formErrors = {}
+  }
 }
 
-const onSubmit = () => {
-  validate()
-  if (Object.keys(formErrors.value).length === 0) {
-    // createFeedback(data.value)
-    console.log('Feedback submitted:', data.value)
+const onSubmit = (e: Event) => {
+  e.preventDefault()
+  console.log('submit', data.value)
+  // validate data before sending to the server
+  const result = schemaValidation.safeParse(data.value)
+  if (!result.success) {
+    console.log('error', result.error)
+    return
   }
+  else {
+    console.log('success', result.data)
+  }
+  // returnedData = await (createFeedback(data.value))
+  // console.log('return', returnedData)
   fetch('https://test-api-lvpopocrba-nw.a.run.app/feedback', {
   // fetch('http://localhost:3000/feedback', {
 
@@ -50,6 +89,10 @@ const onSubmit = () => {
       console.error('Error:', error)
     })
 }
+
+const isDisabled = computed(() => {
+  return formValidation.value
+})
 </script>
 
 <template>
@@ -58,7 +101,7 @@ const onSubmit = () => {
     <br>
     <!-- Create a form based on /types/feedback-data -->
     <div card container text-left>
-      <form @submit.prevent="onSubmit">
+      <form @submit.prevent="onSubmit"></form>>
         <label form-label for="dateTime">Date / Time</label>
         <input id="dateTime" v-model="dateFormat" form-input type="text" name="dateTime" readonly>
         <br>

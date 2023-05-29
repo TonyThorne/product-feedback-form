@@ -8,7 +8,7 @@ describe('UI elements', () => {
   describe('Displaying the title', () => {
     it('should render the header Test Form', () => {
       render(TestForm)
-      const header = screen.queryByRole('heading', { name: 'Test Form' })
+      const header = screen.queryByRole('heading', { name: 'Test Feedback Form' })
       expect(header).toBeInTheDocument()
       expect(header).toMatchSnapshot()
     })

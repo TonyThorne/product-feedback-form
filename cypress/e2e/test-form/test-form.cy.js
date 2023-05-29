@@ -1,4 +1,4 @@
-/// <reference types="Cypress" />
+/// <reference types="cypress" />
 
 describe('A test feedback form for the CHS dojo', () => {
   beforeEach(() => {
