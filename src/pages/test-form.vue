@@ -12,10 +12,12 @@ const data = ref<FeedbackData>({
   details: '',
 })
 
-function formatDate(date: Date) {
+const dateFormat = computed(() => {
+  const date = new Date(data.value.dateTime)
   return date.toLocaleString('en-GB', { timeZone: 'UTC' })
-}
+})
 
+// const formValidation = ref<boolean>(true)
 const formErrors = ref<Record<string, string[] | null>>({})
 const isDisabled = computed(() => Object.values(formErrors.value).some(error => error !== null))
 
@@ -23,28 +25,35 @@ const returnedData = ref<FeedbackData | null>(null)
 
 function validate() {
   const validationResult = schemaValidation.safeParse(data.value)
-  formErrors.value = validationResult.error.flatten().fieldErrors
+  formErrors.value = validationResult.success ? {} : validationResult.error.flatten().fieldErrors
 }
 
 const API_URL = import.meta.env.VITE_VUE_APP_API_URL
 
-async function onSubmit() {
-  validate()
+const onSubmit = async () => {
+  try {
+    validate()
+    if (Object.keys(formErrors.value).length === 0) {
+      // createFeedback(data.value)
+      console.log('Feedback submitted:', data.value)
+    }
+    console.log(import.meta.env)
 
-  const response = await fetch(API_URL || '', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data.value),
-  })
-
-  if (!response.ok) {
-    throw new Error('Network response was not ok')
+    const response = await fetch(API_URL || '', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data.value),
+    })
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+    const responseData = await response.json()
+    returnedData.value = responseData
+  } catch (error) {
+    console.error('Error:', error)
   }
-
-  const responseData = await response.json()
-  returnedData.value = responseData
 }
 </script>
 
@@ -56,7 +65,7 @@ async function onSubmit() {
     <div card container text-left>
       <form @submit.prevent="onSubmit">
         <label form-label for="dateTime">Date / Time</label>
-        <input id="dateTime" v-model="formatDate(data.value.dateTime)" form-input type="text" name="dateTime" readonly>
+        <input id="dateTime" v-model="dateFormat" form-input type="text" name="dateTime" readonly>
         <br>
         <label form-label for="name">Name</label>
         <input id="name" v-model="data.name" form-input type="text" name="name" :class="{ 'border-2 border-rose-600': formErrors?.name }" @input="validate">
