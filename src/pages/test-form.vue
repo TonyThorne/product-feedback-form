@@ -12,12 +12,10 @@ const data = ref<FeedbackData>({
   details: '',
 })
 
-const dateFormat = computed(() => {
-  const date = new Date(data.value.dateTime)
+function formatDate(date: Date) {
   return date.toLocaleString('en-GB', { timeZone: 'UTC' })
-})
+}
 
-// const formValidation = ref<boolean>(true)
 const formErrors = ref<Record<string, string[] | null>>({})
 const isDisabled = computed(() => Object.values(formErrors.value).some(error => error !== null))
 
@@ -25,30 +23,28 @@ const returnedData = ref<FeedbackData | null>(null)
 
 function validate() {
   const validationResult = schemaValidation.safeParse(data.value)
-  formErrors.value = validationResult.success ? {} : validationResult.error.flatten().fieldErrors
+  formErrors.value = validationResult.error.flatten().fieldErrors
 }
 
-const onSubmit = () => {
-  validate()
-  if (Object.keys(formErrors.value).length === 0) {
-    // createFeedback(data.value)
-    console.log('Feedback submitted:', data.value)
-  }
-  fetch('https://test-api-lvpopocrba-nw.a.run.app/feedback', {
-  // fetch('http://localhost:3000/feedback', {
+const API_URL = import.meta.env.VITE_VUE_APP_API_URL
 
+async function onSubmit() {
+  validate()
+
+  const response = await fetch(API_URL || '', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data.value),
   })
-    .then(response => response.json())
-    .then(data => returnedData.value = data)
 
-    .catch((error) => {
-      console.error('Error:', error)
-    })
+  if (!response.ok) {
+    throw new Error('Network response was not ok')
+  }
+
+  const responseData = await response.json()
+  returnedData.value = responseData
 }
 </script>
 
@@ -60,7 +56,7 @@ const onSubmit = () => {
     <div card container text-left>
       <form @submit.prevent="onSubmit">
         <label form-label for="dateTime">Date / Time</label>
-        <input id="dateTime" v-model="dateFormat" form-input type="text" name="dateTime" readonly>
+        <input id="dateTime" v-model="formatDate(data.value.dateTime)" form-input type="text" name="dateTime" readonly>
         <br>
         <label form-label for="name">Name</label>
         <input id="name" v-model="data.name" form-input type="text" name="name" :class="{ 'border-2 border-rose-600': formErrors?.name }" @input="validate">
