@@ -35,9 +35,9 @@ const onSubmit = async () => {
     validate()
     if (Object.keys(formErrors.value).length === 0) {
       // createFeedback(data.value)
-      console.log('Feedback submitted:', data.value)
+      // console.log('Feedback submitted:', data.value)
     }
-    console.log(import.meta.env)
+    // console.log(import.meta.env)
 
     const response = await fetch(API_URL || '', {
       method: 'POST',
@@ -46,12 +46,12 @@ const onSubmit = async () => {
       },
       body: JSON.stringify(data.value),
     })
-    if (!response.ok) {
+    if (!response.ok)
       throw new Error('Network response was not ok')
-    }
     const responseData = await response.json()
     returnedData.value = responseData
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Error:', error)
   }
 }
@@ -70,27 +70,28 @@ const onSubmit = async () => {
         <label form-label for="name">Name</label>
         <input id="name" v-model="data.name" form-input type="text" name="name" :class="{ 'border-2 border-rose-600': formErrors?.name }" @input="validate">
         <div v-if="formErrors?.name" text-red>
-          {{ formErrors.name }}
+          {{ formErrors.name[0] }}
         </div>
         <label form-label for="email">Email</label>
         <input id="email" v-model="data.email" form-input type="email" name="email" :class="{ 'border-2 border-rose-600': formErrors?.email }" @input="validate">
         <div v-if="formErrors?.email" text-red>
-          {{ formErrors.email }}
+          {{ formErrors.email[0] }}
         </div>
         <br>
         <label form-label for="subject">Subject</label>
         <input id="subject" v-model="data.subject" form-input type="text" name="subject" :class="{ 'border-2 border-rose-600': formErrors?.subject }" @input="validate">
         <div v-if="formErrors?.subject" text-red>
-          {{ formErrors.subject }}
+          {{ formErrors.subject[0] }}
         </div>
         <label form-label for="details">Details</label>
         <textarea id="details" v-model="data.details" form-input name="details" :class="{ 'border-2 border-rose-600': formErrors?.details }" @input="validate" />
         <div v-if="formErrors?.details" text-red>
-          {{ formErrors.details }}
+          {{ formErrors.details[0] }}
         </div>
         <br>
         <div text-center>
-          <input btn type="submit" value="Submit" :disabled="isDisabled"  @click="onSubmit">
+          <input btn type="submit" value="Submit" :disabled="isDisabled">
+          <!-- <input btn type="submit" value="Submit" :disabled="isDisabled" @click="onSubmit"> -->
         </div>
       </form>
       <div>

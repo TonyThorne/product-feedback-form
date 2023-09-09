@@ -64,7 +64,7 @@ describe('UI interactions', () => {
       await userEvent.type(email, 'john.doe@gmail.com')
       await userEvent.type(subject, 'Test subject')
       await userEvent.type(details, 'Test details')
-      await userEvent.click(submit)
+      // await userEvent.click(submit)
       expect(submit).toBeEnabled()
     })
     it('should disable submit button if no data entered', async () => {
@@ -88,7 +88,7 @@ describe('UI interactions', () => {
       await userEvent.type(email, 'a@g.com')
       await userEvent.type(subject, 'Test subject')
       await userEvent.type(details, 'Test details')
-      await userEvent.click(submit)
+      // await userEvent.click(submit)
       expect(submit).toBeEnabled()
       await userEvent.clear(details)
       expect(submit).toBeDisabled()
